@@ -1,42 +1,60 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React from "react"
+import React from 'react';
+import {Link, useStaticQuery, graphql } from 'gatsby';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import Navegation from './Navegation';
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
+
+const EnlaceHome = styled(Link)`
+    color: #FFF;
+    text-align: center;
+    text-decoration: none;
+`;
+const Header = () => {
+
+    //consultar el logo.svg
+   const {logo }=  useStaticQuery(graphql`
+    query {
+        logo: file(relativePath: {eq: "logo.svg"}) {
+          publicURL
+        }
+      }
+      
+    `)
+
+
+    return ( 
+        <header
+        css={css`
+           background-color: #0D2838;
+            padding: 1rem;
+        `}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
+        <div
+            css={css`
+                max-width: 1200px;
+                margin: 0 auto;
+                @media (min-width: 768px) {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            `}
         >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+            <EnlaceHome  to='/'
+                css={css`
+                    color: #FFF;
+                    text-align: center;
+                `}
+            > 
+            <img src={logo.publicURL} alt="logotipo" />
+            </EnlaceHome>
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
+            <Navegation />
+
+        </div>
+    </header>
+     );
 }
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header
+ 
+export default Header;
